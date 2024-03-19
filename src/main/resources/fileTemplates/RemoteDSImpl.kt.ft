@@ -1,0 +1,5 @@
+package ${packageName}
+
+class ${capFeatName}RemoteDSImpl: ${capFeatName}RemoteDS {
+
+}
