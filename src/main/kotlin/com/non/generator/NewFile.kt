@@ -49,7 +49,7 @@ class NewFile : CreateFileFromTemplateAction("Generate DataSource Pattern", "Gen
 
     override fun buildDialog(project: Project, directory: PsiDirectory, builder: CreateFileFromTemplateDialog.Builder) {
         LOG.setLevel(LogLevel.DEBUG)
-        builder.addKind("DataSourceWithRemoteDS", null, "x")
+        builder.addKind("DataSourceWithRemoteDS", null, "Service")
     }
 
     override fun getActionName(project: PsiDirectory?, directory: String, builder: String?): String {
@@ -62,11 +62,17 @@ class NewFile : CreateFileFromTemplateAction("Generate DataSource Pattern", "Gen
         val manager = FileTemplateManager.getInstance(project)
         val featDir=dir.checkOrCreateSubDir(className)
         when (template.name) {
-            "x" -> {
+            "Service" -> {
+                featDir.checkOrCreateSubDir("model")
                 val newProperties =
                         listOf(
-                                featDir.checkOrCreateSubDir("repo").let { Pair(it, createNewProperties(project, className,"${className}RemoteDS", it, "x", manager)) },
-                                featDir.checkOrCreateSubDir("repo").let { Pair(it, createNewProperties(project, className,"${className}RemoteDSImpl", it, "nonce", manager)) },
+                                featDir.checkOrCreateSubDir("repo").let { Pair(it, createNewProperties(project, className,"${className}RemoteDS", it, "RemoteDS", manager)) },
+                                featDir.checkOrCreateSubDir("repo").let { Pair(it, createNewProperties(project, className,"${className}LocalDS", it, "LocalDS", manager)) },
+                                featDir.checkOrCreateSubDir("repo").let { Pair(it, createNewProperties(project, className,"${className}RemoteDSImpl", it, "RemoteDSImpl", manager)) },
+                                featDir.checkOrCreateSubDir("repo").let { Pair(it, createNewProperties(project, className,"${className}LocalDSImpl", it, "LocalDSImpl", manager)) },
+                                featDir.checkOrCreateSubDir("repo").let { Pair(it, createNewProperties(project, className,"${className}Repository", it, "Repository", manager)) },
+                                featDir.checkOrCreateSubDir("repo").let { Pair(it, createNewProperties(project, className,"${className}RepositoryImpl", it, "RepositoryImpl", manager)) },
+                                featDir.checkOrCreateSubDir("repo").let { Pair(it, createNewProperties(project, className,"${className}Service", it, "Service", manager)) },
                         )
                 newProperties.forEachIndexed { index, pair ->
                     if (index == newProperties.lastIndex) {

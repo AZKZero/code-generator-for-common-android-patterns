@@ -1,0 +1,7 @@
+package ${packageName}
+
+class ${capFeatName}RepositoryImpl(
+    private val remoteDS: ${capFeatName}RemoteDS
+): ${capFeatName}Repository {
+
+}
